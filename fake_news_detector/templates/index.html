@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake News Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <h1>Fake News Detector</h1>
+      <p class="sub">Claim-level fact verification with web evidence · powered by Loki</p>
+    </div>
+  </header>
+
+  {% if demo %}
+  <div class="banner wrap">DEMO MODE: results are simulated with a keyword heuristic, not real fact-checks. Add API keys and restart without <code>--demo</code>.</div>
+  {% endif %}
+
+  <main class="wrap grid">
+    <section class="card">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="text" role="tab">Paste text</button>
+        <button class="tab" data-tab="url" role="tab">News URL</button>
+      </div>
+      <form id="check-form">
+        <div class="pane" data-pane="text">
+          <textarea id="text" rows="9" placeholder="Paste a news article, headline or social media post…"></textarea>
+          <div class="examples">
+            Try:
+            <button type="button" class="ex" data-text="The Eiffel Tower is located in Paris and was completed in 1889.">True example</button>
+            <button type="button" class="ex" data-text="NASA confirmed that the Great Wall of China is the only man-made structure visible from the Moon with the naked eye.">False example</button>
+          </div>
+        </div>
+        <div class="pane hidden" data-pane="url">
+          <input id="url" type="url" placeholder="https://www.example.com/news/article">
+          <p class="hint">The article text is extracted from the page and then fact-checked.</p>
+        </div>
+        <button id="submit" class="primary" type="submit">Check news</button>
+      </form>
+      <div id="status" class="status hidden"></div>
+    </section>
+
+    <aside class="card">
+      <h2>History</h2>
+      <ul id="history" class="history"><li class="muted">No checks yet.</li></ul>
+    </aside>
+
+    <section id="result" class="card result hidden"></section>
+  </main>
+
+  <footer class="wrap muted small">
+    Verdicts are generated automatically from retrieved web evidence and can be wrong. Always check the cited sources.
+  </footer>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
